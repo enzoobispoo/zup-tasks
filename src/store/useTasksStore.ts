@@ -14,22 +14,14 @@ export const useTasksStore = create<TasksState>()(
     (set) => ({
       tasks: [],
       addTask: (task) =>
-        set((state) => ({
-          tasks: [...state.tasks, task],
-        })),
+        set((state) => ({ tasks: [...state.tasks, task] })),
       updateTask: (updated) =>
         set((state) => ({
-          tasks: state.tasks.map((t) =>
-            t.id === updated.id ? updated : t
-          ),
+          tasks: state.tasks.map((t) => (t.id === updated.id ? updated : t)),
         })),
       deleteTask: (id) =>
-        set((state) => ({
-          tasks: state.tasks.filter((t) => t.id !== id),
-        })),
+        set((state) => ({ tasks: state.tasks.filter((t) => t.id !== id) })),
     }),
-    {
-      name: 'tasks-storage',
-    }
+    { name: 'tasks-storage' }
   )
 )

@@ -1,42 +1,64 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+.container {
+  max-width: 520px;
+  margin: 60px auto;
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
   text-align: center;
+  margin-bottom: 22px;
+  font-size: 26px;
+  color: #0f172a;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.task-list {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.task-card {
+  max-width: 500px;
+  margin-bottom: 15px;
+  background: #f9fafb;
+  padding: 14px;
+  border-radius: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.task-view p {
+  font-size: 14px;
+  color: #374151;
+  margin: 4px 0;
 }
 
-.card {
-  padding: 2em;
+.task-view strong {
+  color: #111827;
 }
 
-.read-the-docs {
-  color: #888;
+.task-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.back-link {
+  display: block;
+  margin-top: 18px;
+  text-align: center;
+  color: #2563eb;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  opacity: 0.8;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
 }

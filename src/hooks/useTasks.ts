@@ -1,5 +1,3 @@
 import { useTasksStore } from '../store/useTasksStore'
 
-export const useTasks = () => {
-  return useTasksStore()
-}
+export const useTasks = () => useTasksStore()
