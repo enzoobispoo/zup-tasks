@@ -7,21 +7,35 @@ interface TasksState {
   addTask: (task: Task) => void
   updateTask: (task: Task) => void
   deleteTask: (id: string) => void
+  clear: () => void
 }
 
 export const useTasksStore = create<TasksState>()(
   persist(
     (set) => ({
       tasks: [],
+
       addTask: (task) =>
-        set((state) => ({ tasks: [...state.tasks, task] })),
+        set((state) => ({
+          tasks: [...state.tasks, task],
+        })),
+
       updateTask: (updated) =>
         set((state) => ({
-          tasks: state.tasks.map((t) => (t.id === updated.id ? updated : t)),
+          tasks: state.tasks.map((t) =>
+            t.id === updated.id ? updated : t
+          ),
         })),
+
       deleteTask: (id) =>
-        set((state) => ({ tasks: state.tasks.filter((t) => t.id !== id) })),
+        set((state) => ({
+          tasks: state.tasks.filter((t) => t.id !== id),
+        })),
+
+      clear: () => set({ tasks: [] }),
     }),
-    { name: 'tasks-storage' }
+    {
+      name: 'tasks-storage',
+    }
   )
 )

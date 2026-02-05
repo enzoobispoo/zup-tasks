@@ -10,7 +10,7 @@ export function Home() {
   const [description, setDescription] = useState('')
   const [message, setMessage] = useState<string | null>(null)
 
-  function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (!title.trim()) return
 
@@ -44,8 +44,12 @@ export function Home() {
           rows={4}
         />
 
-        <div className="task-actions">
-          <button className="btn" type="submit">
+        <div className="actions-row">
+          <button
+            className="btn"
+            type="submit"
+            disabled={!title.trim()}
+          >
             Criar task
           </button>
 

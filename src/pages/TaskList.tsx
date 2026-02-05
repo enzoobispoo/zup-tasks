@@ -3,38 +3,42 @@ import { Link } from 'react-router-dom'
 import { useTasks } from '../hooks/useTasks'
 import type { Task } from '../types/Task'
 import { Feedback } from '../components/Feedback'
+import { ConfirmModal } from '../components/ConfirmModal'
 
 export function TaskList() {
   const { tasks, deleteTask, updateTask } = useTasks()
+
   const [editing, setEditing] = useState<Task | null>(null)
   const [message, setMessage] = useState<string | null>(null)
-  const [showEmpty, setShowEmpty] = useState(true)
+  const [taskToDelete, setTaskToDelete] = useState<Task | null>(null)
 
   function handleSave() {
-    if (editing) {
-      updateTask(editing)
-      setEditing(null)
-    }
+    if (!editing || !editing.title.trim()) return
+
+    updateTask(editing)
+    setEditing(null)
+
+    setMessage('Tarefa atualizada com sucesso.')
+    setTimeout(() => setMessage(null), 2000)
   }
 
-  function handleDelete(id: string) {
-    deleteTask(id)
-    setMessage('Tarefa removida com sucesso.')
-    setShowEmpty(false)
+  function handleConfirmDelete() {
+    if (!taskToDelete) return
 
-    setTimeout(() => {
-      setMessage(null)
-      setShowEmpty(true)
-    }, 2000)
+    deleteTask(taskToDelete.id)
+    setTaskToDelete(null)
+
+    setMessage('Tarefa removida com sucesso.')
+    setTimeout(() => setMessage(null), 2000)
   }
 
   return (
     <div className="container">
       <h1>Lista de Tasks</h1>
 
-      {message && <Feedback message={message} />} 
+      {message && <Feedback message={message} type="success" />}
 
-      {tasks.length === 0 && showEmpty && !message && (
+      {!message && tasks.length === 0 && (
         <Feedback message="Nenhuma tarefa criada ainda." type="info" />
       )}
 
@@ -50,6 +54,7 @@ export function TaskList() {
                     setEditing({ ...editing, title: e.target.value })
                   }
                 />
+
                 <textarea
                   className="input textarea"
                   value={editing.description}
@@ -58,9 +63,21 @@ export function TaskList() {
                   }
                   rows={3}
                 />
-                <div className="task-actions">
-                  <button className="btn" onClick={handleSave}>
+
+                <div className="actions-row">
+                  <button
+                    className="btn"
+                    onClick={handleSave}
+                    disabled={!editing.title.trim()}
+                  >
                     Salvar
+                  </button>
+
+                  <button
+                    className="btn secondary"
+                    onClick={() => setEditing(null)}
+                  >
+                    Cancelar
                   </button>
                 </div>
               </>
@@ -75,13 +92,14 @@ export function TaskList() {
                   </p>
                 </div>
 
-                <div className="task-actions">
+                <div className="actions-row">
                   <button className="btn" onClick={() => setEditing(task)}>
                     Editar
                   </button>
+
                   <button
                     className="btn danger"
-                    onClick={() => handleDelete(task.id)}
+                    onClick={() => setTaskToDelete(task)}
                   >
                     Apagar
                   </button>
@@ -95,6 +113,15 @@ export function TaskList() {
       <Link to="/" className="btn secondary">
         Voltar
       </Link>
+
+      {taskToDelete && (
+        <ConfirmModal
+          title="Excluir tarefa"
+          description={`Deseja realmente excluir a tarefa "${taskToDelete.title}"?`}
+          onCancel={() => setTaskToDelete(null)}
+          onConfirm={handleConfirmDelete}
+        />
+      )}
     </div>
   )
 }
